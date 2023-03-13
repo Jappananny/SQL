@@ -1,3 +1,4 @@
+--Введение в SQL
 \l
 \c skypro
 CREATE TABLE employee (
@@ -24,3 +25,44 @@ SELECT * FROM employee;
 DELETE FROM employee WHERE id = 3;
 SELECT * FROM employee;
 \q
+--Выборка данных и вложенные хапросы
+--Задание 1
+INSERT INTO employee (
+    first_name, last_name, gender, age)
+VALUES ('Nikolau', 'Gusev', 'male', 18);
+INSERT INTO employee (
+    first_name, last_name, gender, age)
+VALUES ('Alisa', 'Juk', 'female', 55);
+INSERT INTO employee (
+    first_name, last_name, gender, age)
+VALUES ('Elena', 'Ivanova', 'female', 26);
+SELECT first_name AS Имя,last_name AS Фамилия,
+       SUM(age) AS Возраст FROM employee GROUP BY Имя, Фамилия;
+SELECT first_name FROM employee WHERE age > 50 OR age < 30 ORDER BY first_name;
+SELECT * FROM employee WHERE age BETWEEN 30 and 50;
+SELECT last_name AS Фамилия FROM employee ORDER BY Фамилия DESC;
+SELECT * FROM employee WHERE LENGTH(first_name) > 4;
+--Задание 2
+UPDATE employee
+SET first_name = 'Alisa'
+WHERE id =  7;
+UPDATE employee
+SET first_name = 'Vasja'
+WHERE id =  4;
+SELECT first_name AS Имя, SUM(age) AS "Суммарный возраст"
+FROM employee
+GROUP BY first_name;
+SELECT first_name AS Имя, MIN(age) AS "Самый маленький возраст"
+FROM employee
+GROUP BY first_name;
+SELECT first_name AS Имя, MAX(age) AS "Максимальный возраст"
+FROM employee
+WHERE first_name IN (
+    SELECT first_name
+    FROM employee
+    GROUP BY first_name
+    HAVING COUNT(*) > 1
+    )
+GROUP BY first_name
+ORDER BY "Максимальный возраст";
+
