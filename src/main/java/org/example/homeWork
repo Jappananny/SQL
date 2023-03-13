@@ -65,4 +65,43 @@ WHERE first_name IN (
     )
 GROUP BY first_name
 ORDER BY "Максимальный возраст";
+--Задание 3
+CREATE TABLE city (
+    city_id BIGSERIAL NOT NULL PRIMARY KEY,
+    city_name VARCHAR(50) NOT NULL
+);
+ALTER TABLE employee
+    ADD COLUMN city_id BIGINT REFERENCES city (city_id);
+INSERT INTO city(city_name)
+VALUES ('г.Москва'),
+       ('с.Сахарная головка'),
+       ('г.Симферополь'),
+       ('с.Мытищи');
+UPDATE employee
+SET city_id = 1
+WHERE id = 1;
+UPDATE employee
+SET city_id = 1
+WHERE id = 7;
+UPDATE employee
+SET city_id = 2
+WHERE id = 4;
+UPDATE employee
+SET city_id = 3
+WHERE id = 6;
+SELECT e.first_name, e.last_name, c.city_name
+FROM employee e
+INNER JOIN city c ON e.city_id = c.city_id;
+SELECT e.first_name, e.last_name, c.city_name
+FROM employee e
+LEFT JOIN city c ON e.city_id = c.city_id;
+SELECT e.first_name, e.last_name, c.city_name
+FROM employee e
+RIGHT JOIN city c ON e.city_id = c.city_id;
+SELECT e.first_name, e.last_name, c.city_name
+FROM employee e
+FULL JOIN city c ON e.city_id = c.city_id;
+SELECT e.first_name, e.last_name, c.city_name
+FROM employee e
+CROSS JOIN city c;
 
