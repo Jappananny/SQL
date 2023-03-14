@@ -57,12 +57,7 @@ FROM employee
 GROUP BY first_name;
 SELECT first_name AS Имя, MAX(age) AS "Максимальный возраст"
 FROM employee
-WHERE first_name IN (
-    SELECT first_name
-    FROM employee
-    GROUP BY first_name
-    HAVING COUNT(*) > 1
-    )
 GROUP BY first_name
+HAVING COUNT(*) > 1
 ORDER BY "Максимальный возраст";
 
